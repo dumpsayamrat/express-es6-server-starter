@@ -1,0 +1,37 @@
+{
+  "name": "express-es6-server-starter",
+  "version": "1.0.0",
+  "description": "Get started with Express, ES6 and Jest",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js --exec babel-node --presets es2015,stage-2",
+    "build": "rimraf build && babel src -d build --presets es2015,stage-2",
+    "serve": "node build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dumpsayamrat/express-es6-server-starter.git"
+  },
+  "keywords": [
+    "express",
+    "es6",
+    "jest",
+    "server"
+  ],
+  "author": "dumpsayamrat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dumpsayamrat/express-es6-server-starter/issues"
+  },
+  "homepage": "https://github.com/dumpsayamrat/express-es6-server-starter#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "nodemon": "^1.11.0",
+    "rimraf": "^2.6.1"
+  },
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
