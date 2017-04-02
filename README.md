@@ -140,7 +140,8 @@ $ heroku config:set NPM_CONFIG_PRODUCTION=false
 $ git push heroku master
 ```
 คำสั่ง `heroku config:set NPM_CONFIG_PRODUCTION=false` เป็นการเซ็ตให้เครื่อง production ติดตั้ง package ต่าง ๆ ใน devDependencies ด้วย
-ทดลองเปิด app โดยพิมพ์ต่อไปนี้
+
+จากนั้นทดลองเปิด app โดยพิมพ์ต่อไปนี้
 ```shell
 $ heroku open
 ```
