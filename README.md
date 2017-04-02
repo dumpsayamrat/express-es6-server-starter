@@ -12,15 +12,15 @@ $ mkdir express-app
 $ cd express-app
 $ npm init
 ```
-ติดตั้ง babel-cli ในลิสท์ devDependencies
+ติดตั้ง babel-cli ในลิสต์ devDependencies
 ```shell
 $ npm install --save-dev babel-cli
 ```
-ติดคั้ง [presets](http://babeljs.io/docs/plugins/#presets) สำหรับ babel เพื่อใช้ในการแปลงโค้ด ในลิสท์ devDependencies
+ติดคั้ง [presets](http://babeljs.io/docs/plugins/#presets) สำหรับ babel เพื่อใช้ในการแปลงโค้ด ในลิสต์ devDependencies
 ```shell
 $ npm install --save-dev babel-preset-es2015 babel-preset-stage-2
 ```
-ติดตั้ง [express](https://expressjs.com/) ในลิสท์ dependencies
+ติดตั้ง [express](https://expressjs.com/) ในลิสต์ dependencies
 ```shell
 $ npm install --save express
 ```
@@ -76,8 +76,7 @@ $ npm start
 โดย server จะถูก restart ทุกครั้งที่ไฟล์มีการเปลื่ยนแปลง
 
 ### ทำ app ให้สามารถใช้ใน production ได้
-ตอนนีั้เราใช้ `babel-node` สำหรับรัน server มันคงไม่ดีแน่ถ้าเราใช้คำสั่งนี้บน production
-เราควรจะแปลงไฟล์ไว้ที่ไหนสักแห่งก่อนเพื่อให้เครื่อง production รัน app โดยไม่ต้อง แปลงโค้ดอีกครั้ง
+ตอนนีั้เราใช้ `babel-node` สำหรับรัน server มันคงไม่ดีแน่ถ้าเราใช้คำสั่งนี้บน production เราควรจะแปลงไฟล์ไว้ที่ไหนสักแห่งก่อนเพื่อให้เครื่อง production รัน app โดยไม่ต้อง แปลงโค้ดอีกครั้ง
 เพิ่มคำสั่ง `npm run build` และ `npm run serve` ในไฟล์ `package.json`
 ```diff
 "script": {
@@ -86,11 +85,8 @@ $ npm start
 + "serve": "node build/index.js"
 }
 ```
-คำสั่ง `npm run build` ทำการแปลงโค้ดจากโฟลเดอร์ `src/` ไปยังโฟลเดอร์ `build/`
-โดยก่อนจะ แปลงโค้ดเราก็ควรจะลบโฟลเดอร์ `build/` ก่อนโดยอาจจะใช้คำสั่ง `rm -rf build`
-แต่ในโปรเจคนี้จะใช้ [rimraf](https://github.com/isaacs/rimraf) เหตุที่ใช้ `rimraf`
-เพราะว่า คำสั่ง `rm -rf build` ใช้ไม่ได้ในทุก OS (กรณีต้องการ develop ใน Windows)
-ติดตั้ง `rimraf` ในลิสท์ devDependencies และแก้ไขคำสั่งในไฟล์ `package.json`
+คำสั่ง `npm run build` ทำการแปลงโค้ดจากโฟลเดอร์ `src/` ไปยังโฟลเดอร์ `build/` โดยก่อนจะแปลงโค้ดเราก็ควรจะลบโฟลเดอร์ `build/` ก่อนโดยอาจจะใช้คำสั่ง `rm -rf build` แต่ในโปรเจคนี้จะใช้ [rimraf](https://github.com/isaacs/rimraf) เหตุที่ใช้ `rimraf` เพราะคำสั่ง `rm -rf` ใช้ไม่ได้ในทุก OS (กรณีต้องการ develop ใน Windows)
+ติดตั้ง `rimraf` ในลิสต์ devDependencies และแก้ไขคำสั่งในไฟล์ `package.json`
 ```shell
 $ npm install --save-dev rimraf
 ```
@@ -106,4 +102,19 @@ $ npm install --save-dev rimraf
 ```shell
 $ touch .gitignore
 $ echo "build" >> .gitignore
+```
+จากนั้นสร้าง `Procfile` โดยพิมพ์คำสั่งต่อไปนี้
+```shell
+$ touch Procfile
+$ echo "web: npm run serve" >> Procfile
+```
+การสร้าง Procfile จะทำให้คำสั่ง `npm run serve` รันทุกครั้งที่ deploy
+การ deploy ขึ้น production นั้นเครื่อง production จะดึงโค้ดจาก git repository ไป แล้วคำสั่ง `node build/index.js` เป็นคำสั่งที่เรียกใช้ไฟล์ในโฟลเดอร์ `build` แต่โฟลเดอร์ `build` ไม่ได้ถูกเพิ่มเข้าไปใน git repository ดังนั้นควร เพิ่มคำสั่ง `postinstall` ในไฟล์ `package.json` เพื่อทำการ build โฟลเดอร์ `build` บนเครื่อง production ก่อนที่จะเรียกใช้คำสั่ง `npm run serve` บนเครื่อง production
+```diff
+"script": {
+  "start": "nodemon src/index.js --exec babel-node --presets es2015,stage-2",
+  "build": "rimraf build && babel src -d build --presets es2015,stage-2",
+  "serve": "node build/index.js",
++ "postinstall": "npm run build"
+}
 ```
