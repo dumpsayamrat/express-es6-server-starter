@@ -26,8 +26,8 @@ $ npm install --save express
 ```
 จากนั้นสร้างไฟล์สำหรับสร้าง server
 ```shell
-$ mkdir src`
-`$ touch src/index.js
+$ mkdir src
+$ touch src/index.js
 ```
 โดยในไฟล์ `index.js` ให้ใส่โค้ดต่อไปนี้เข้าไป
 ```js
@@ -76,7 +76,7 @@ $ npm start
 โดย server จะถูก restart ทุกครั้งที่ไฟล์มีการเปลื่ยนแปลง
 
 ### ทำ app ให้สามารถใช้ใน production ได้
-ตอนนีั้เราใช้ `babel-node` สำหรับรัน server มันคงไม่ดีแน่ถ้าเราใช้คำสั่งนี้บน production เราควรจะแปลงไฟล์ไว้ที่ไหนสักแห่งก่อนเพื่อให้เครื่อง production รัน app โดยไม่ต้อง แปลงโค้ดอีกครั้ง
+ตอนนี้เราใช้ `babel-node` สำหรับรัน server มันคงไม่ดีแน่ถ้าเราใช้คำสั่งนี้บน production เราควรจะแปลงไฟล์ไว้ที่ไหนสักแห่งก่อนเพื่อให้เครื่อง production รัน app โดยไม่ต้อง แปลงโค้ดอีกครั้ง
 เพิ่มคำสั่ง `npm run build` และ `npm run serve` ในไฟล์ `package.json`
 ```diff
 "script": {
