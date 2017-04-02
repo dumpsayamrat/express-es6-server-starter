@@ -118,7 +118,7 @@ $ echo "web: npm run serve" >> Procfile
 + "postinstall": "npm run build"
 }
 ```
-แก้ไฟล์ `src/index.js` เพื่อให้ใช้ได้ในสามารถรันได้ในเครื่อง production
+แก้ไฟล์ `src/index.js` เพื่อให้สามารถรันได้บนเครื่อง production
 ```js
 import express from 'express';
 
