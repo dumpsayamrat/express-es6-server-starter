@@ -102,7 +102,7 @@ $ npm install --save-dev rimraf
   "serve": "node build/index.js"
 }
 ```
-ต่อไปก็อย่าลืมที่จะเพิ่มโฟลเดอร์ `build` เข้าไปในไฟล์ `.gitignore` เพื่อป้องกันการ `commit` ไฟล์ในโฟล์เดอร์ `build` โดยบังเอิญ
+ต่อไปก็อย่าลืมที่จะเพิ่ม `build` เข้าไปในไฟล์ `.gitignore` เพื่อป้องกันการ `commit` ไฟล์ในโฟล์เดอร์ `build` โดยบังเอิญ
 ```shell
 $ touch .gitignore
 $ echo "build" >> .gitignore
