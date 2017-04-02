@@ -118,3 +118,26 @@ $ echo "web: npm run serve" >> Procfile
 + "postinstall": "npm run build"
 }
 ```
+แก้ไฟล์ `src/index.js` เพื่อให้ใช้ได้ในสามารถรันได้ในเครื่อง production
+```js
+import express from 'express';
+
+const app = express()
+const port = (process.env.PORT || 3000);
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`)
+})
+```
+ทำการ deploy ไปยัง [heroku](http://www.herokuapp.com/) ติดตั้งและล็อกอินก่อนพิมพ์คำสั่งดังต่อไปนี้
+```shell
+$ heroku create
+$ heroku config:set NPM_CONFIG_PRODUCTION=false
+$ git push heroku master
+```
+คำสั่ง `heroku config:set NPM_CONFIG_PRODUCTION=false` เป็นการเซ็ตให้เครื่อง production ติดตั้ง package ต่าง ๆ ใน devDependencies ด้วย
+ทดลอง
