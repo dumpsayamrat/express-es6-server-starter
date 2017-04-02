@@ -3,7 +3,7 @@ Get started with Express, ES6 and Jest
 ---
 
 ### เริ่มสร้างโปรเจค
-อันดัยแรก เริ่มสร้างโฟลเดอร์
+อันดับแรก เริ่มสร้างโฟลเดอร์
 ```shell
 $ mkdir express-app
 ```
