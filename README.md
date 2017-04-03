@@ -181,7 +181,7 @@ $ npm install --save-dev jest
 ```shell
 $ npm install --save-dev supertest supertest-as-promised
 ```
-แก้ไขไฟล์ `src/index.js` เพื่อ export `app`
+แก้ไขไฟล์ `src/index.js` เพื่อ export `server`
 ```js
 import express from 'express';
 
