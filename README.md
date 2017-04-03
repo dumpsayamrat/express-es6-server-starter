@@ -154,7 +154,7 @@ $ heroku open
 ```shell
 $ touch .babelrc
 ```
-แล้วกำหนด `presets` ให้ตรงตามที่ติดตั้งไว้
+แล้วกำหนด `presets` ให้ตรงตามที่ติดตั้งไว้ในไฟล์ `.babelrc`
 ```json
 {
   "presets": ["es2015", "stage-2"]
@@ -171,3 +171,84 @@ $ touch .babelrc
   "postinstall": "npm run build"
 }
 ```
+
+### ติดตั้งการ test ด้วย Jest
+ติดตั้ง [Jest](https://facebook.github.io/jest/)
+```shell
+$ npm install --save-dev jest
+```
+ติดตั้ง [Supertest](https://github.com/visionmedia/supertest) และ [supertest-as-promised](https://github.com/WhoopInc/supertest-as-promised) เพื่อใช้ในการ test api
+```shell
+$ npm install --save-dev supertest supertest-as-promised
+```
+แก้ไขไฟล์ `src/index.js` เพื่อ export `app`
+```js
+import express from 'express';
+
+const app = express()
+const port = (process.env.PORT || 3000);
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+const server = app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`)
+})
+
+export default server
+```
+สร้างโฟลเดอร์ `__test__` และ `index.test.js` สำหรับการ test
+```shell
+$ mkdir __test__
+$ touch __test__/index.test.js
+```
+เพิ่มโค้ด test ในไฟล์ `__test__/index.test.js`
+```js
+import request from 'supertest-as-promised'
+import server from '../src'
+
+describe('App API', () => {
+  afterAll(() => {
+    server.close()
+  })
+
+  test('should return \'Hello World!\'', () => {
+    return request(server).get('/')
+    .expect(200)
+    .then((res) => {
+      expect(typeof res.res.text).toBe('string')
+      expect(res.res.text).toBe('Hello World!')
+    })
+  })
+})
+```
+เพิ่มคำสั่ง `npm test` ในไฟล์ `package.json`
+```diff
+"script": {
+  "start": "nodemon src/index.js --exec babel-node",
+  "build": "rimraf build && babel src -d build",
+  "serve": "node build/index.js",
+  "postinstall": "npm run build",
++ "test": "jest"
+}
+```
+ทดลองรัน test
+```shell
+$ npm test
+```
+จะแสดงผลการ test ตามนี้
+```shell
+PASS  __test__/index.test.js
+  App API
+    ✓ should return 'Hello World!' (39ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        6.466s
+Ran all test suites.
+  console.log src/index.js:11
+    Example app listening on port 3000!
+```
+จบแล้ว
