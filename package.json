@@ -4,8 +4,8 @@
   "description": "Get started with Express, ES6 and Jest",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js --exec babel-node --presets es2015,stage-2",
-    "build": "rimraf build && babel src -d build --presets es2015,stage-2",
+    "start": "nodemon src/index.js --exec babel-node",
+    "build": "rimraf build && babel src -d build",
     "serve": "node build/index.js",
     "postinstall": "npm run build"
   },

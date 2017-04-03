@@ -77,6 +77,7 @@ $ npm start
 
 ### ทำ app ให้สามารถใช้ใน production ได้
 ตอนนี้เราใช้ `babel-node` สำหรับรัน server มันคงไม่ดีแน่ถ้าเราใช้คำสั่งนี้บน production เราควรจะแปลงไฟล์ไว้ที่ไหนสักแห่งก่อนเพื่อให้เครื่อง production รัน app โดยไม่ต้อง แปลงโค้ดอีกครั้ง
+
 เพิ่มคำสั่ง `npm run build` และ `npm run serve` ในไฟล์ `package.json`
 ```diff
 "script": {
@@ -86,6 +87,7 @@ $ npm start
 }
 ```
 คำสั่ง `npm run build` ทำการแปลงโค้ดจากโฟลเดอร์ `src/` ไปยังโฟลเดอร์ `build/` โดยก่อนจะแปลงโค้ดเราก็ควรจะลบโฟลเดอร์ `build/` ก่อนโดยอาจจะใช้คำสั่ง `rm -rf build` แต่ในโปรเจคนี้จะใช้ [rimraf](https://github.com/isaacs/rimraf) เหตุที่ใช้ `rimraf` เพราะคำสั่ง `rm -rf` ใช้ไม่ได้ในทุก OS (กรณีต้องการ develop ใน Windows)
+
 ติดตั้ง `rimraf` ในลิสต์ devDependencies และแก้ไขคำสั่งในไฟล์ `package.json`
 ```shell
 $ npm install --save-dev rimraf
@@ -146,3 +148,26 @@ $ git push heroku master
 $ heroku open
 ```
 จะเห็นคำว่า `Hello World!` แสดงใน browser
+
+### เปลื่ยนออปชั่น babel เป็น ไฟล์ .babelrc
+สร้างไฟล์ `.babelrc`
+```shell
+$ touch .babelrc
+```
+แล้วกำหนด `presets` ให้ตรงตามที่ติดตั้งไว้
+```json
+{
+  "presets": ["es2015", "stage-2"]
+}
+```
+ตอนนี้เราก็สามารถลบโค้ดที่ซ้ำกันได้แล้ว
+```diff
+"script": {
+- "start": "nodemon src/index.js --exec babel-node --presets es2015,stage-2",
+- "build": "rimraf build && babel src -d build --presets es2015,stage-2",
++ "start": "nodemon src/index.js --exec babel-node",
++ "build": "rimraf build && babel src -d build",
+  "serve": "node build/index.js",
+  "postinstall": "npm run build"
+}
+```
